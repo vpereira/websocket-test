@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<table class="table table-striped">
+<thead>
+<tr><th scope="col">ID</th><th scope="col">Status</th></tr>
+</thead>
+<tbody>
+{{range .Jobs}}
+<tr>
+    <td>{{.ID}} </td>
+    <td>{{.Status}}</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+<script>
+$(document).ready(function(){
+    setTimeout("refreshTable()", 1000);
+    refreshTable();
+})
+function refreshTable() {
+    $.get('/list.json', {}, function(data) {
+        var json = $.parseJSON(data);
+        var content = '';
+        $.each(json, function(k, v) {
+            content+= "<tr>"
+            $.each(v, function(c,d){
+                content+= "<td>" + d + "</td>" 
+            });
+           content += "</tr>"
+        })
+        $('.table tbody').html(content)
+    });
+    setTimeout("refreshTable()", 1000);
+}
+</script>
+</body>
+</html>
