@@ -20,21 +20,21 @@
 </tbody>
 </table>
 <script>
- var wsClient = new WebSocket("ws://localhost:3000/ws")
- var update = function() {
-     wsClient.onmessage = function(response) {
-         var jsonData = JSON.parse(response.data)
-         var oTableBody = document.querySelector('.table tbody')
-         for(var i = 0; i < oTableBody.rows.length; i++) {
-             var oCells = oTableBody.rows.item(i).cells
-             var jobID = oCells.item(0).innerText
+const wsClient = new WebSocket("ws://localhost:3000/ws");
+ const update = () => {
+     wsClient.onmessage = ({data}) => {
+         const jsonData = JSON.parse(data);
+         const oTableBody = document.querySelector('.table tbody');
+         for(let i = 0; i < oTableBody.rows.length; i++) {
+             const oCells = oTableBody.rows.item(i).cells;
+             const jobID = oCells.item(0).innerText;
              if(jobID == jsonData.id) {
                  oCells.item(1).innerText = jsonData.status
              }          
          }
      }
  };
- window.setTimeout(update);
+ window.setTimeout(update); 
 </script>
 </body>
 </html>
